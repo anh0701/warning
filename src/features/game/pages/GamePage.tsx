@@ -1,28 +1,26 @@
+import { useCallback } from "react";
+import { Link, useParams, useSearchParams } from "react-router-dom";
+import { ArrowLeft, RotateCcw, Trophy } from "lucide-react";
 
-import { useCallback } from 'react'
-import { Link, useParams, useSearchParams } from 'react-router-dom'
-import { ArrowLeft, RotateCcw, Trophy } from 'lucide-react'
+import { fireScenarios } from "../../../data/scenarios/fireScenarios";
 
-import { fireScenarios } from '../../../data/scenarios/fireScenarios'
+import GameHUD from "../components/GameHUD";
+import SceneView from "../components/SceneView";
+import DialogueBox from "../components/DialogueBox";
+import ChoiceList from "../components/ChoiceList";
+import FeedbackPanel from "../components/FeedbackPanel";
 
-import GameHUD from '../components/GameHUD'
-import SceneView from '../components/SceneView'
-import DialogueBox from '../components/DialogueBox'
-import ChoiceList from '../components/ChoiceList'
-import FeedbackPanel from '../components/FeedbackPanel'
-
-import { useGame } from '../hooks/useGame'
-import { useGameTimer } from '../hooks/useGameTimer'
+import { useGame } from "../hooks/useGame";
+import { useGameTimer } from "../hooks/useGameTimer";
 
 export default function GamePage() {
-  const { chapterId } = useParams()
-  const [searchParams] = useSearchParams()
+  const { chapterId } = useParams();
+  const [searchParams] = useSearchParams();
 
   // Hiện tại mới triển khai chapter Fire.
-  const scenarios = chapterId === 'fire' ? fireScenarios : []
+  const scenarios = chapterId === "fire" ? fireScenarios : [];
 
-  const firstScenarioId =
-    searchParams.get('scenario') || 'fire-01'
+  const firstScenarioId = searchParams.get("scenario") || "fire-01";
 
   const {
     gameState,
@@ -33,18 +31,18 @@ export default function GamePage() {
   } = useGame({
     scenarios,
     firstScenarioId,
-  })
+  });
 
   const handleTimeUp = useCallback(() => {
     // Hết giờ chỉ dừng đồng hồ.
     // Người chơi vẫn có thể chọn hành động.
-  }, [])
+  }, []);
 
   const { timeLeft, percentage } = useGameTimer({
     duration: currentScenario?.timeLimitSeconds ?? 0,
-    isActive: gameState.status === 'playing',
+    isActive: gameState.status === "playing",
     onTimeUp: handleTimeUp,
-  })
+  });
 
   // Kiểm tra chapter không tồn tại hoặc chưa được triển khai.
   if (!currentScenario && scenarios.length === 0) {
@@ -65,7 +63,7 @@ export default function GamePage() {
           Back to Home
         </Link>
       </div>
-    )
+    );
   }
 
   // Kiểm tra scenario ID không hợp lệ.
@@ -83,11 +81,11 @@ export default function GamePage() {
           Back to Chapter
         </Link>
       </div>
-    )
+    );
   }
 
   // Màn hình kết thúc chapter.
-  if (gameState.status === 'ended') {
+  if (gameState.status === "ended") {
     return (
       <main className="mx-auto flex min-h-[75vh] max-w-3xl items-center justify-center px-5 py-12">
         <div className="w-full rounded-2xl border border-white/10 bg-[#1b2835] p-7 text-center sm:p-10">
@@ -104,25 +102,20 @@ export default function GamePage() {
           </h1>
 
           <p className="mx-auto mb-8 max-w-lg text-sm leading-7 text-[#9aa8b5]">
-            You have completed this survival scenario.
-            Review your performance and try again to explore
-            different decisions.
+            You have completed this survival scenario. Review your performance
+            and try again to explore different decisions.
           </p>
 
           <div className="mb-8 grid grid-cols-2 gap-4">
             <div className="rounded-xl bg-[#101820] p-5">
-              <p className="mb-2 text-xs text-[#9aa8b5]">
-                Final Safety
-              </p>
+              <p className="mb-2 text-xs text-[#9aa8b5]">Final Safety</p>
               <p className="text-3xl font-bold text-[#58b889]">
                 {gameState.safety}%
               </p>
             </div>
 
             <div className="rounded-xl bg-[#101820] p-5">
-              <p className="mb-2 text-xs text-[#9aa8b5]">
-                Final Calmness
-              </p>
+              <p className="mb-2 text-xs text-[#9aa8b5]">Final Calmness</p>
               <p className="text-3xl font-bold text-[#e8a34a]">
                 {gameState.calmness}%
               </p>
@@ -148,7 +141,7 @@ export default function GamePage() {
           </div>
         </div>
       </main>
-    )
+    );
   }
 
   return (
@@ -207,14 +200,14 @@ export default function GamePage() {
       </div>
 
       {/* Time warning */}
-      {timeLeft === 0 && gameState.status === 'playing' && (
+      {timeLeft === 0 && gameState.status === "playing" && (
         <div className="mb-6 rounded-lg border border-[#e05252]/30 bg-[#e05252]/10 p-4 text-sm text-[#f2f3f4]">
           Time is up. Take a moment to choose your next action carefully.
         </div>
       )}
 
       {/* Choices or feedback */}
-      {gameState.status === 'playing' ? (
+      {gameState.status === "playing" ? (
         <ChoiceList
           choices={currentScenario.choices}
           selectedChoice={gameState.selectedChoice}
@@ -235,5 +228,5 @@ export default function GamePage() {
         </p>
       </div>
     </main>
-  )
+  );
 }
