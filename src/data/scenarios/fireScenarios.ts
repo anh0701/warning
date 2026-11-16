@@ -4,43 +4,44 @@ export const fireScenarios: Scenario[] = [
   {
     id: "fire-01",
     chapterId: "fire",
-    title: "The First Warning",
-    location: "Your Room · 2nd Floor",
+    title: "Dấu hiệu bất thường",
+    location: "Phòng ngủ · Tầng 2",
     image: "/images/scenarios/fire/fire-01.png",
-    description: "Something is wrong...",
+    description: "Có điều gì đó không ổn...",
     dialogue:
-      "You are in your room when you suddenly smell something burning. A few seconds later, you notice smoke coming from the hallway. What will you do?",
+      "Bạn đang ở trong phòng thì bất chợt ngửi thấy mùi khét. Vài giây sau, bạn nhận thấy khói đang len vào từ phía hành lang. Bạn sẽ làm gì?",
     timeLimitSeconds: 30,
     choices: [
       {
         id: "open-door",
-        text: "Open the door and immediately run into the hallway.",
+        text: "Mở cửa và lập tức chạy ra hành lang.",
         effects: {
           safety: -20,
           calmness: -10,
         },
         feedback: {
           type: "danger",
-          title: "A Dangerous Decision",
-          message: "You open the door without checking the situation outside.",
+          title: "Một quyết định nguy hiểm",
+          message: "Bạn mở cửa mà chưa kiểm tra tình hình bên ngoài.",
           explanation:
-            "The hallway may already contain smoke or fire. Opening the door and rushing out without assessing the situation can expose you to danger.",
+            "Hành lang có thể đã bị khói hoặc lửa bao phủ. Mở cửa và vội vàng chạy ra ngoài khi chưa đánh giá tình hình có thể khiến bạn rơi vào nguy hiểm.",
         },
         nextScenarioId: "fire-02",
       },
       {
         id: "stay-alert",
-        text: "Keep the door closed and assess the situation.",
+        text: "Giữ cửa đóng và bình tĩnh đánh giá tình hình.",
         effects: {
           safety: 15,
           calmness: 10,
         },
         feedback: {
           type: "success",
-          title: "A Careful Decision",
-          message: "You avoid rushing into an unknown situation.",
+          title: "Một quyết định thận trọng",
+          message:
+            "Bạn không vội lao vào một khu vực chưa xác định mức độ an toàn.",
           explanation:
-            "Staying away from a potentially smoke-filled hallway is a safer first response. If you see smoke or suspect a fire, contact emergency services and prepare to follow their instructions.",
+            "Tránh tiếp xúc với hành lang có khả năng chứa nhiều khói là lựa chọn thận trọng hơn. Nếu nghi ngờ có cháy, hãy liên hệ lực lượng cứu hỏa và làm theo hướng dẫn của họ.",
         },
         nextScenarioId: "fire-02",
       },
@@ -49,44 +50,44 @@ export const fireScenarios: Scenario[] = [
   {
     id: "fire-02",
     chapterId: "fire",
-    title: "Smoke in the Hallway",
-    location: "Second Floor · Hallway",
+    title: "Khói bao phủ hành lang",
+    location: "Hành lang · Tầng 2",
     image: "/images/scenarios/fire/fire-02.png",
-    description: "The situation is getting worse.",
+    description: "Tình hình đang trở nên nghiêm trọng hơn.",
     dialogue:
-      "Smoke is spreading through the hallway. You cannot clearly see what is happening beyond the door. You need to decide whether there is a safe way out.",
+      "Khói đang lan rộng khắp hành lang. Bạn không thể nhìn rõ những gì đang diễn ra ở phía bên kia cánh cửa. Bạn cần xác định liệu có lối thoát nào an toàn hay không.",
     timeLimitSeconds: 25,
     choices: [
       {
         id: "use-elevator",
-        text: "Take the elevator to get downstairs quickly.",
+        text: "Sử dụng thang máy để xuống tầng dưới thật nhanh.",
         effects: {
           safety: -25,
           calmness: -10,
         },
         feedback: {
           type: "danger",
-          title: "Never Use the Elevator",
-          message: "You choose the elevator during a fire emergency.",
+          title: "Không sử dụng thang máy khi có cháy",
+          message: "Bạn lựa chọn thang máy trong tình huống hỏa hoạn.",
           explanation:
-            "Elevators may stop working or open onto a floor affected by fire or smoke. Do not use elevators during a fire. Use a safe evacuation route instead.",
+            "Thang máy có thể ngừng hoạt động hoặc mở cửa tại tầng đang có cháy, khói. Khi xảy ra hỏa hoạn, tuyệt đối không sử dụng thang máy. Hãy tìm lối thoát hiểm an toàn thay thế.",
         },
         nextScenarioId: "fire-04",
       },
       {
         id: "check-stairs",
-        text: "Check whether the stairway is clear and safe to use.",
+        text: "Kiểm tra xem cầu thang bộ có khói hoặc lửa không trước khi di chuyển.",
         effects: {
           safety: 15,
           calmness: 5,
         },
         feedback: {
           type: "success",
-          title: "Assess Your Escape Route",
+          title: "Đánh giá lối thoát hiểm",
           message:
-            "You look for a safe route instead of choosing the quickest-looking option.",
+            "Bạn kiểm tra mức độ an toàn của lối thoát thay vì chỉ lựa chọn con đường có vẻ nhanh nhất.",
           explanation:
-            "Use the stairs only if the route is confirmed safe and free of smoke and fire. If smoke blocks the route, do not enter it. Retreat to a safer enclosed space and contact emergency services.",
+            "Chỉ sử dụng cầu thang bộ khi xác định lối đi an toàn, không bị khói và lửa bao phủ. Nếu khói đã chặn lối thoát, đừng cố đi vào. Hãy quay lại khu vực kín an toàn hơn và liên hệ lực lượng cứu hộ.",
         },
         nextScenarioId: "fire-03",
       },
@@ -95,43 +96,44 @@ export const fireScenarios: Scenario[] = [
   {
     id: "fire-03",
     chapterId: "fire",
-    title: "The Escape Route",
-    location: "Stairwell · Building",
+    title: "Lối thoát hiểm",
+    location: "Cầu thang bộ · Tòa nhà",
     image: "/images/scenarios/fire/fire-03.png",
-    description: "You have found a possible way out.",
+    description: "Bạn đã tìm thấy một lối thoát có vẻ an toàn.",
     dialogue:
-      "You find that the stairway is clear of visible smoke and fire. Other residents are beginning to evacuate. What should you do?",
+      "Bạn nhận thấy cầu thang bộ hiện chưa có dấu hiệu bị khói hoặc lửa bao phủ. Một số cư dân khác cũng đang bắt đầu sơ tán. Bạn sẽ làm gì tiếp theo?",
     timeLimitSeconds: 25,
     choices: [
       {
         id: "use-stairs",
-        text: "Evacuate using the stairs and move away from the building.",
+        text: "Di chuyển xuống bằng cầu thang bộ và nhanh chóng rời xa tòa nhà.",
         effects: {
           safety: 20,
           calmness: 10,
         },
         feedback: {
           type: "success",
-          title: "You Chose the Safer Route",
-          message: "You evacuate through the clear stairway and head outside.",
+          title: "Bạn đã chọn lối thoát an toàn hơn",
+          message:
+            "Bạn sơ tán qua cầu thang bộ và di chuyển ra khu vực bên ngoài.",
           explanation:
-            "When the route is safe, evacuate using the stairs. Follow emergency instructions, avoid delaying to collect belongings, and move away from the building.",
+            "Khi lối thoát được xác định là an toàn, hãy sử dụng cầu thang bộ để sơ tán. Tuân theo hướng dẫn của lực lượng chức năng, không mất thời gian thu gom đồ đạc và nhanh chóng di chuyển ra xa tòa nhà.",
         },
         nextScenarioId: "fire-05",
       },
       {
         id: "return-room",
-        text: "Go back to your room to collect your belongings.",
+        text: "Quay lại phòng để lấy những đồ dùng cá nhân quan trọng.",
         effects: {
           safety: -20,
           calmness: -5,
         },
         feedback: {
           type: "danger",
-          title: "Do Not Delay Your Evacuation",
-          message: "You waste valuable time returning for personal belongings.",
+          title: "Đừng trì hoãn việc sơ tán",
+          message: "Bạn đã lãng phí thời gian quý giá để quay lại lấy đồ.",
           explanation:
-            "Belongings can be replaced. During a fire, prioritize getting to safety. Never return to a potentially dangerous area for personal items.",
+            "Tài sản có thể thay thế, nhưng tính mạng thì không. Khi xảy ra hỏa hoạn, hãy ưu tiên thoát khỏi khu vực nguy hiểm. Tuyệt đối không quay lại lấy đồ dùng cá nhân.",
         },
         nextScenarioId: "fire-05",
       },
@@ -140,45 +142,45 @@ export const fireScenarios: Scenario[] = [
   {
     id: "fire-04",
     chapterId: "fire",
-    title: "Someone Needs Help",
-    location: "Your Room · 2nd Floor",
+    title: "Có người đang cần giúp đỡ",
+    location: "Phòng ngủ · Tầng 2",
     image: "/images/scenarios/fire/fire-01.png",
-    description: "The escape route is blocked.",
+    description: "Lối thoát của bạn đã bị khói chặn.",
     dialogue:
-      "The hallway and stairway are filled with smoke. You cannot safely leave through the door. You hear someone calling for help nearby. What will you do?",
+      "Hành lang và cầu thang bộ đều đã bị khói bao phủ. Bạn không thể an toàn đi ra ngoài bằng cửa chính. Bất chợt, bạn nghe thấy tiếng người kêu cứu ở gần đó. Bạn sẽ làm gì?",
     timeLimitSeconds: 30,
     choices: [
       {
         id: "cross-smoke",
-        text: "Try to cross the smoke-filled hallway to find the person.",
+        text: "Cố gắng băng qua hành lang đầy khói để tìm người đang kêu cứu.",
         effects: {
           safety: -25,
           calmness: -15,
         },
         feedback: {
           type: "danger",
-          title: "Do Not Enter a Smoke-Filled Route",
+          title: "Không đi vào khu vực đầy khói",
           message:
-            "You put yourself in danger by attempting to cross the smoke.",
+            "Bạn đã đặt bản thân vào nguy hiểm khi cố băng qua hành lang đầy khói.",
           explanation:
-            "Smoke can quickly make escape difficult and can be toxic. Do not enter a route filled with smoke. Tell emergency responders that someone may need help and provide their last known location.",
+            "Khói có thể nhanh chóng khiến bạn mất phương hướng, khó thở và bị ngộ độc. Đừng cố đi qua lối thoát đã bị khói bao phủ. Hãy thông báo cho lực lượng cứu hộ về người có thể đang mắc kẹt và vị trí cuối cùng bạn nghe thấy tiếng kêu cứu.",
         },
         nextScenarioId: "fire-05",
       },
       {
         id: "call-for-help",
-        text: "Stay in a safer room, close the door, and call 114.",
+        text: "Ở lại nơi an toàn hơn, đóng cửa và gọi 114 để cầu cứu.",
         effects: {
           safety: 20,
           calmness: 10,
         },
         feedback: {
           type: "success",
-          title: "Protect Yourself and Call for Help",
+          title: "Bảo vệ bản thân và gọi cứu hộ",
           message:
-            "You stay away from the smoke and contact emergency services.",
+            "Bạn tránh xa khu vực có khói và chủ động liên hệ lực lượng cứu hỏa.",
           explanation:
-            "If escape routes are blocked, close the door, block gaps where smoke may enter if possible, and call 114 in Vietnam. Give your exact location and report anyone who may be trapped. Follow the dispatcher’s instructions.",
+            "Khi các lối thoát bị chặn, hãy đóng cửa, dùng vật liệu phù hợp chèn kín các khe hở để hạn chế khói tràn vào nếu có thể. Gọi 114, cung cấp chính xác vị trí của bạn và thông báo nếu có người đang mắc kẹt. Làm theo hướng dẫn của tổng đài.",
         },
         nextScenarioId: "fire-05",
       },
@@ -187,44 +189,45 @@ export const fireScenarios: Scenario[] = [
   {
     id: "fire-05",
     chapterId: "fire",
-    title: "Outside the Building",
-    location: "Outside · Safe Area",
+    title: "An toàn bên ngoài tòa nhà",
+    location: "Bên ngoài · Khu vực an toàn",
     image: "/images/scenarios/fire/fire-02.png",
-    description: "You have reached the final stage.",
+    description: "Bạn đã đến được khu vực bên ngoài.",
     dialogue:
-      "You are now outside the building. Emergency responders are arriving. Some residents are gathering near the entrance. What should you do next?",
+      "Bạn đã thoát ra khỏi tòa nhà. Lực lượng cứu hỏa đang trên đường đến hiện trường. Một số cư dân đang tập trung gần lối vào. Bạn sẽ làm gì tiếp theo?",
     timeLimitSeconds: 20,
     choices: [
       {
         id: "stay-safe",
-        text: "Stay away from the building and report important information to responders.",
+        text: "Tiếp tục ở khu vực an toàn và cung cấp thông tin cần thiết cho lực lượng cứu hộ.",
         effects: {
           safety: 20,
           calmness: 10,
         },
         feedback: {
           type: "success",
-          title: "A Responsible Decision",
+          title: "Một hành động có trách nhiệm",
           message:
-            "You remain in a safe area and help responders with useful information.",
+            "Bạn giữ khoảng cách an toàn và hỗ trợ lực lượng cứu hộ bằng những thông tin hữu ích.",
           explanation:
-            "Stay clear of the building and emergency access routes. Tell responders if anyone may still be inside. Never re-enter until authorities confirm it is safe.",
+            "Hãy ở cách xa tòa nhà và không cản trở đường tiếp cận của xe cứu hỏa. Thông báo cho lực lượng chức năng nếu bạn biết có người vẫn còn mắc kẹt bên trong. Tuyệt đối không quay lại cho đến khi cơ quan chức năng xác nhận tòa nhà an toàn.",
         },
         isEnding: true,
       },
       {
         id: "go-back",
-        text: "Go back inside to check whether everyone has escaped.",
+        text: "Quay trở lại tòa nhà để kiểm tra xem mọi người đã thoát hết chưa.",
         effects: {
           safety: -30,
           calmness: -10,
         },
         feedback: {
           type: "danger",
-          title: "Do Not Re-enter the Building",
-          message: "You risk your safety by returning to a dangerous area.",
+          title: "Không quay lại khu vực đang cháy",
+          message:
+            "Bạn đang tự đặt mình vào nguy hiểm khi quay trở lại tòa nhà.",
           explanation:
-            "Rescue operations should be handled by trained emergency responders. Tell them what you know about anyone who may still be inside, and do not re-enter the building.",
+            "Công tác tìm kiếm và cứu nạn cần được thực hiện bởi lực lượng cứu hộ chuyên nghiệp. Hãy cung cấp cho họ những thông tin bạn biết về người có thể còn mắc kẹt bên trong. Không tự ý quay trở lại tòa nhà.",
         },
         isEnding: true,
       },
