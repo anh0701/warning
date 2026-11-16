@@ -1,15 +1,15 @@
-
-import { ArrowRight, Clock3, Play, LockKeyhole } from 'lucide-react'
-import type { Chapter } from '../types/chapter.types'
+import { ArrowRight, Clock3, Play, LockKeyhole } from "lucide-react";
+import type { Chapter } from "../types/chapter.types";
+import { Link } from "react-router-dom";
 
 interface ChapterScenarioListProps {
-  chapter: Chapter
+  chapter: Chapter;
 }
 
 export default function ChapterScenarioList({
   chapter,
 }: ChapterScenarioListProps) {
-  const isAvailable = chapter.status === 'available'
+  const isAvailable = chapter.status === "available";
 
   return (
     <section id="chapter-scenarios" className="scroll-mt-24">
@@ -18,13 +18,11 @@ export default function ChapterScenarioList({
           YOUR JOURNEY
         </p>
 
-        <h2 className="mt-3 text-3xl font-black">
-          Chapter Scenarios
-        </h2>
+        <h2 className="mt-3 text-3xl font-black">Chapter Scenarios</h2>
 
         <p className="mt-3 text-sm leading-7 text-muted">
-          Hành trình được chia thành nhiều tình huống liên kết với nhau.
-          Những quyết định của bạn sẽ ảnh hưởng đến diễn biến tiếp theo.
+          Hành trình được chia thành nhiều tình huống liên kết với nhau. Những
+          quyết định của bạn sẽ ảnh hưởng đến diễn biến tiếp theo.
         </p>
       </div>
 
@@ -36,13 +34,11 @@ export default function ChapterScenarioList({
               className="group flex flex-col gap-4 rounded-xl border border-white/10 bg-surface p-5 transition hover:border-primary/30 sm:flex-row sm:items-center"
             >
               <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-white/5 text-sm font-black text-primary">
-                {String(index + 1).padStart(2, '0')}
+                {String(index + 1).padStart(2, "0")}
               </div>
 
               <div className="min-w-0 flex-1">
-                <h3 className="font-bold">
-                  {scenario.title}
-                </h3>
+                <h3 className="font-bold">{scenario.title}</h3>
 
                 <p className="mt-2 text-sm leading-6 text-muted">
                   {scenario.description}
@@ -56,14 +52,12 @@ export default function ChapterScenarioList({
 
               <div className="shrink-0">
                 {isAvailable ? (
-                  <span className="inline-flex items-center gap-2 text-xs font-bold text-primary">
-                    <Play size={15} />
-                    SCENARIO
-                    <ArrowRight
-                      size={15}
-                      className="transition group-hover:translate-x-1"
-                    />
-                  </span>
+                  <Link
+                    to={`/game/${chapter.id}?scenario=${scenario.id}`}
+                    className="inline-flex items-center gap-2 rounded-lg border border-[#e8a34a]/40 px-3 py-2 text-xs font-bold tracking-wider text-[#e8a34a] transition hover:bg-[#e8a34a] hover:text-[#101820]"
+                  >
+                    PLAY
+                  </Link>
                 ) : (
                   <span className="inline-flex items-center gap-2 text-xs text-muted">
                     <LockKeyhole size={14} />
@@ -76,14 +70,9 @@ export default function ChapterScenarioList({
         </div>
       ) : (
         <div className="rounded-2xl border border-dashed border-white/15 bg-surface/50 px-6 py-12 text-center">
-          <LockKeyhole
-            size={30}
-            className="mx-auto text-muted"
-          />
+          <LockKeyhole size={30} className="mx-auto text-muted" />
 
-          <h3 className="mt-4 font-bold">
-            Scenarios are being developed
-          </h3>
+          <h3 className="mt-4 font-bold">Scenarios are being developed</h3>
 
           <p className="mt-2 text-sm text-muted">
             Nội dung chương này sẽ sớm được cập nhật.
@@ -91,5 +80,5 @@ export default function ChapterScenarioList({
         </div>
       )}
     </section>
-  )
+  );
 }

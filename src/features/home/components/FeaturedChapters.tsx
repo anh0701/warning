@@ -1,4 +1,3 @@
-
 import {
   ArrowUpRight,
   Flame,
@@ -7,11 +6,11 @@ import {
   Shield,
   HeartPulse,
   LockKeyhole,
-} from 'lucide-react'
-import { Link } from 'react-router-dom'
+} from "lucide-react";
+import { Link } from "react-router-dom";
 
-import { getAllChapters } from '../../chapters/services/chapterService'
-import type { Chapter } from '../../chapters/types/chapter.types'
+import { getAllChapters } from "../../chapters/services/chapterService";
+import type { Chapter } from "../../chapters/types/chapter.types";
 
 const chapterIcons = {
   fire: Flame,
@@ -19,42 +18,42 @@ const chapterIcons = {
   traffic: CarFront,
   personal: Shield,
   health: HeartPulse,
-}
+};
 
 const chapterColors = {
-  fire: 'text-orange-400',
-  flood: 'text-sky-400',
-  traffic: 'text-yellow-400',
-  personal: 'text-violet-400',
-  health: 'text-rose-400',
-}
+  fire: "text-orange-400",
+  flood: "text-sky-400",
+  traffic: "text-yellow-400",
+  personal: "text-violet-400",
+  health: "text-rose-400",
+};
 
 const chapterBackgrounds = {
-  fire: 'from-orange-500/20',
-  flood: 'from-sky-500/20',
-  traffic: 'from-yellow-500/20',
-  personal: 'from-violet-500/20',
-  health: 'from-rose-500/20',
-}
+  fire: "from-orange-500/20",
+  flood: "from-sky-500/20",
+  traffic: "from-yellow-500/20",
+  personal: "from-violet-500/20",
+  health: "from-rose-500/20",
+};
 
 function ChapterCard({ chapter }: { chapter: Chapter }) {
-  const Icon = chapterIcons[chapter.id as keyof typeof chapterIcons]
-  const color = chapterColors[chapter.id as keyof typeof chapterColors]
+  const Icon = chapterIcons[chapter.id as keyof typeof chapterIcons];
+  const color = chapterColors[chapter.id as keyof typeof chapterColors];
   const background =
-    chapterBackgrounds[chapter.id as keyof typeof chapterBackgrounds]
+    chapterBackgrounds[chapter.id as keyof typeof chapterBackgrounds];
 
-  const isAvailable = chapter.status === 'available'
+  const isAvailable = chapter.status === "available";
 
   return (
     <article className="group relative overflow-hidden rounded-2xl border border-white/10 bg-surface p-6 transition duration-300 hover:-translate-y-1 hover:border-primary/40">
       <div
-        className={`pointer-events-none absolute inset-0 bg-gradient-to-br ${background ?? 'from-primary/10'} to-transparent opacity-60`}
+        className={`pointer-events-none absolute inset-0 bg-gradient-to-br ${background ?? "from-primary/10"} to-transparent opacity-60`}
       />
 
       <div className="relative">
         <div className="flex items-start justify-between">
           <div
-            className={`flex h-12 w-12 items-center justify-center rounded-xl bg-white/5 ${color ?? 'text-primary'}`}
+            className={`flex h-12 w-12 items-center justify-center rounded-xl bg-white/5 ${color ?? "text-primary"}`}
           >
             {Icon ? <Icon size={25} /> : <Flame size={25} />}
           </div>
@@ -68,9 +67,7 @@ function ChapterCard({ chapter }: { chapter: Chapter }) {
           {chapter.category}
         </p>
 
-        <h3 className="mt-2 text-xl font-bold">
-          {chapter.title}
-        </h3>
+        <h3 className="mt-2 text-xl font-bold">{chapter.title}</h3>
 
         <p className="mt-1 text-xs font-medium text-primary">
           {chapter.subtitle}
@@ -84,7 +81,7 @@ function ChapterCard({ chapter }: { chapter: Chapter }) {
           <div>
             <span
               className={`flex items-center gap-2 text-[10px] font-bold tracking-wider ${
-                isAvailable ? 'text-success' : 'text-muted'
+                isAvailable ? "text-success" : "text-muted"
               }`}
             >
               {isAvailable ? (
@@ -93,13 +90,13 @@ function ChapterCard({ chapter }: { chapter: Chapter }) {
                 <LockKeyhole size={12} />
               )}
 
-              {isAvailable ? 'AVAILABLE' : 'COMING SOON'}
+              {isAvailable ? "AVAILABLE" : "COMING SOON"}
             </span>
 
             <p className="mt-1 text-xs text-muted">
               {chapter.scenarios.length > 0
                 ? `${chapter.scenarios.length} Scenarios`
-                : 'In development'}
+                : "In development"}
             </p>
           </div>
 
@@ -119,17 +116,14 @@ function ChapterCard({ chapter }: { chapter: Chapter }) {
         </div>
       </div>
     </article>
-  )
+  );
 }
 
 export default function FeaturedChapters() {
-  const chapters = getAllChapters()
+  const chapters = getAllChapters();
 
   return (
-    <section
-      id="chapters"
-      className="mx-auto max-w-7xl px-5 py-20 md:px-8"
-    >
+    <section id="chapters" className="mx-auto max-w-7xl px-5 py-20 md:px-8">
       <div className="mb-9 flex flex-col justify-between gap-4 md:flex-row md:items-end">
         <div>
           <p className="text-xs font-bold tracking-[0.2em] text-primary">
@@ -141,14 +135,12 @@ export default function FeaturedChapters() {
           </h2>
 
           <p className="mt-3 max-w-xl text-sm leading-7 text-muted">
-            Mỗi chương là một hành trình với những tình huống thực tế.
-            Mỗi quyết định đều có thể thay đổi diễn biến câu chuyện.
+            Mỗi chương là một hành trình với những tình huống thực tế. Mỗi quyết
+            định đều có thể thay đổi diễn biến câu chuyện.
           </p>
         </div>
 
-        <span className="text-sm text-muted">
-          {chapters.length} Chapters
-        </span>
+        <span className="text-sm text-muted">{chapters.length} Chapters</span>
       </div>
 
       <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
@@ -157,5 +149,5 @@ export default function FeaturedChapters() {
         ))}
       </div>
     </section>
-  )
+  );
 }

@@ -1,18 +1,15 @@
+import { Link, useParams } from "react-router-dom";
+import { ArrowLeft } from "lucide-react";
 
-import { Link, useParams } from 'react-router-dom'
-import { ArrowLeft } from 'lucide-react'
-
-import { getChapterById } from '../services/chapterService'
-import ChapterHero from '../components/ChapterHero'
-import ChapterOverview from '../components/ChapterOverview'
-import ChapterScenarioList from '../components/ChapterScenarioList'
+import { getChapterById } from "../services/chapterService";
+import ChapterHero from "../components/ChapterHero";
+import ChapterOverview from "../components/ChapterOverview";
+import ChapterScenarioList from "../components/ChapterScenarioList";
 
 export default function ChapterPage() {
-  const { chapterId } = useParams<{ chapterId: string }>()
+  const { chapterId } = useParams<{ chapterId: string }>();
 
-  const chapter = chapterId
-    ? getChapterById(chapterId)
-    : undefined
+  const chapter = chapterId ? getChapterById(chapterId) : undefined;
 
   if (!chapter) {
     return (
@@ -22,9 +19,7 @@ export default function ChapterPage() {
             404 - CHAPTER NOT FOUND
           </p>
 
-          <h1 className="mt-4 text-3xl font-black">
-            Chapter not found
-          </h1>
+          <h1 className="mt-4 text-3xl font-black">Chapter not found</h1>
 
           <p className="mt-3 text-sm text-muted">
             Chương bạn đang tìm kiếm không tồn tại.
@@ -39,7 +34,7 @@ export default function ChapterPage() {
           </Link>
         </div>
       </main>
-    )
+    );
   }
 
   return (
@@ -52,5 +47,5 @@ export default function ChapterPage() {
         <ChapterScenarioList chapter={chapter} />
       </main>
     </>
-  )
+  );
 }

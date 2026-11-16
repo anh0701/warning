@@ -1,13 +1,13 @@
+import { createBrowserRouter } from "react-router-dom";
 
-import { createBrowserRouter } from 'react-router-dom'
-
-import MainLayout from '../shared/layouts/MainLayout'
-import HomePage from '../features/home/pages/HomePage'
-import ChapterPage from '../features/chapters/pages/ChapterPage'
+import MainLayout from "../shared/layouts/MainLayout";
+import HomePage from "../features/home/pages/HomePage";
+import ChapterPage from "../features/chapters/pages/ChapterPage";
+import GamePage from "../features/game/pages/GamePage";
 
 export const router = createBrowserRouter([
   {
-    path: '/',
+    path: "/",
     element: <MainLayout />,
     children: [
       {
@@ -15,9 +15,13 @@ export const router = createBrowserRouter([
         element: <HomePage />,
       },
       {
-        path: 'chapters/:chapterId',
+        path: "chapters/:chapterId",
         element: <ChapterPage />,
       },
     ],
   },
-])
+  {
+    path: "/game/:chapterId",
+    element: <GamePage />,
+  },
+]);

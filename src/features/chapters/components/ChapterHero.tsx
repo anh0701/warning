@@ -1,19 +1,18 @@
-
-import { ArrowDown, LockKeyhole } from 'lucide-react'
-import type { Chapter } from '../types/chapter.types'
+import { ArrowDown, LockKeyhole } from "lucide-react";
+import type { Chapter } from "../types/chapter.types";
 
 interface ChapterHeroProps {
-  chapter: Chapter
+  chapter: Chapter;
 }
 
 const difficultyLabels = {
-  easy: 'EASY',
-  medium: 'MEDIUM',
-  hard: 'HARD',
-}
+  easy: "EASY",
+  medium: "MEDIUM",
+  hard: "HARD",
+};
 
 export default function ChapterHero({ chapter }: ChapterHeroProps) {
-  const isAvailable = chapter.status === 'available'
+  const isAvailable = chapter.status === "available";
 
   return (
     <section className="relative isolate flex min-h-[480px] items-end overflow-hidden border-b border-white/10 md:min-h-[560px]">
@@ -56,21 +55,21 @@ export default function ChapterHero({ chapter }: ChapterHeroProps) {
 
           <div className="mt-8 flex flex-wrap items-center gap-x-7 gap-y-3 text-xs font-semibold tracking-wider text-muted">
             <span>
-              DIFFICULTY:{' '}
+              DIFFICULTY:{" "}
               <span className="text-foreground">
                 {difficultyLabels[chapter.difficulty]}
               </span>
             </span>
 
             <span>
-              DURATION:{' '}
+              DURATION:{" "}
               <span className="text-foreground">
                 {chapter.estimatedMinutes} MIN
               </span>
             </span>
 
             <span>
-              SCENARIOS:{' '}
+              SCENARIOS:{" "}
               <span className="text-foreground">
                 {chapter.scenarios.length}
               </span>
@@ -103,5 +102,5 @@ export default function ChapterHero({ chapter }: ChapterHeroProps) {
         </div>
       </div>
     </section>
-  )
+  );
 }
