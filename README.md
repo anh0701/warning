@@ -1,32 +1,100 @@
-# React + TypeScript + Vite
+# Warning
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+<!-- 1. Presentation Layer: Pages , Components , Layouts
+Hiển thị giao diện và nhận tương tác.
 
-Currently, two official plugins are available:
+2. Application Layer: Hooks , Use Cases , Game Controller
+Điều phối các hành động của người chơi.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+3. Domain Layer: Entities , Types , Game Rules
+Chứa quy tắc gameplay, trạng thái, tính điểm và xử lý lựa chọn.
 
-## React Compiler
+4. Infrastructure Layer: Data , Storage , Asset Management
+Đọc dữ liệu tình huống, lưu tiến trình và quản lý tài nguyên. 
+-->
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the Oxlint configuration
-
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
-
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
-}
-```
-
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+<!-- 
+warning/
+│
+├── public/
+│   ├── images/
+│   │   ├── logo/
+│   │   ├── chapters/
+│   │   └── scenarios/
+│   └── sounds/
+│
+├── src/
+│   │
+│   ├── app/
+│   │   ├── App.tsx
+│   │   ├── router.tsx
+│   │   └── providers/
+│   │
+│   ├── features/
+│   │   │
+│   │   ├── home/
+│   │   │   ├── components/
+│   │   │   │   ├── HeroSection.tsx
+│   │   │   │   ├── ContinueCard.tsx
+│   │   │   │   └── FeaturedChapters.tsx
+│   │   │   └── pages/
+│   │   │       └── HomePage.tsx
+│   │   │
+│   │   ├── chapters/
+│   │   │   ├── components/
+│   │   │   ├── pages/
+│   │   │   │   └── ChapterPage.tsx
+│   │   │   ├── services/
+│   │   │   └── types/
+│   │   │
+│   │   ├── game/
+│   │   │   ├── components/
+│   │   │   │   ├── GameHUD.tsx
+│   │   │   │   ├── SceneView.tsx
+│   │   │   │   ├── DialogueBox.tsx
+│   │   │   │   ├── ChoiceList.tsx
+│   │   │   │   └── FeedbackPanel.tsx
+│   │   │   ├── hooks/
+│   │   │   │   ├── useGame.ts
+│   │   │   │   └── useGameTimer.ts
+│   │   │   ├── services/
+│   │   │   │   └── gameEngine.ts
+│   │   │   ├── domain/
+│   │   │   │   ├── gameRules.ts
+│   │   │   │   └── gameState.ts
+│   │   │   ├── pages/
+│   │   │   │   └── GamePage.tsx
+│   │   │   └── types/
+│   │   │       └── game.types.ts
+│   │   │
+│   │   ├── results/
+│   │   └── knowledge/
+│   │
+│   ├── shared/
+│   │   ├── components/
+│   │   │   ├── Button.tsx
+│   │   │   ├── Modal.tsx
+│   │   │   └── ProgressBar.tsx
+│   │   ├── layouts/
+│   │   │   └── MainLayout.tsx
+│   │   ├── hooks/
+│   │   ├── utils/
+│   │   └── types/
+│   │
+│   ├── data/
+│   │   ├── chapters/
+│   │   └── scenarios/
+│   │
+│   ├── infrastructure/
+│   │   ├── storage/
+│   │   │   └── localStorage.ts
+│   │   └── repositories/
+│   │
+│   ├── styles/
+│   │   └── globals.css
+│   │
+│   └── main.tsx
+│
+├── package.json
+└── vite.config.ts 
+-->
