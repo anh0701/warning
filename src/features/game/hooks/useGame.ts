@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
 import type { GameState, Scenario, ScenarioChoice } from "../types/game.types";
 
@@ -20,7 +20,12 @@ export function useGame({ scenarios, firstScenarioId }: UseGameOptions) {
     createInitialGameState(firstScenarioId),
   );
 
-  // Lấy tình huống hiện tại dựa vào ID trong gameState.
+  // Khởi tạo lại game khi người chơi chuyển sang tình huống khác.
+  useEffect(() => {
+    setGameState(createInitialGameState(firstScenarioId));
+  }, [firstScenarioId]);
+
+  // Lấy diễn biến hiện tại.
   const currentScenario = useMemo(
     () => getScenarioById(scenarios, gameState.currentScenarioId),
     [scenarios, gameState.currentScenarioId],
@@ -38,7 +43,7 @@ export function useGame({ scenarios, firstScenarioId }: UseGameOptions) {
     [currentScenario],
   );
 
-  // Chuyển sang tình huống tiếp theo.
+  // Chuyển sang diễn biến tiếp theo.
   const continueScenario = useCallback(() => {
     setGameState((previousState) => continueGame(previousState));
   }, []);

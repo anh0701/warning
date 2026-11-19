@@ -24,6 +24,8 @@ export interface ScenarioChoice {
 export interface Scenario {
   id: string;
   chapterId: string;
+  scenarioId: string;
+
   title: string;
   location: string;
   description: string;

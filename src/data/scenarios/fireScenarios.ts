@@ -4,6 +4,7 @@ export const fireScenarios: Scenario[] = [
   {
     id: "fire-01",
     chapterId: "fire",
+    scenarioId: "building-fire",
     title: "Dấu hiệu bất thường",
     location: "Phòng ngủ · Tầng 2",
     image: "/images/scenarios/fire/fire-01.png",
@@ -50,6 +51,7 @@ export const fireScenarios: Scenario[] = [
   {
     id: "fire-02",
     chapterId: "fire",
+    scenarioId: "building-fire",
     title: "Khói bao phủ hành lang",
     location: "Hành lang · Tầng 2",
     image: "/images/scenarios/fire/fire-02.png",
@@ -96,6 +98,7 @@ export const fireScenarios: Scenario[] = [
   {
     id: "fire-03",
     chapterId: "fire",
+    scenarioId: "building-fire",
     title: "Lối thoát hiểm",
     location: "Cầu thang bộ · Tòa nhà",
     image: "/images/scenarios/fire/fire-03.png",
@@ -142,6 +145,7 @@ export const fireScenarios: Scenario[] = [
   {
     id: "fire-04",
     chapterId: "fire",
+    scenarioId: "building-fire",
     title: "Có người đang cần giúp đỡ",
     location: "Phòng ngủ · Tầng 2",
     image: "/images/scenarios/fire/fire-01.png",
@@ -189,6 +193,7 @@ export const fireScenarios: Scenario[] = [
   {
     id: "fire-05",
     chapterId: "fire",
+    scenarioId: "building-fire",
     title: "An toàn bên ngoài tòa nhà",
     location: "Bên ngoài · Khu vực an toàn",
     image: "/images/scenarios/fire/fire-02.png",

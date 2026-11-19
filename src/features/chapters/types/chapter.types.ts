@@ -6,7 +6,10 @@ export interface ChapterScenario {
   id: string;
   title: string;
   description: string;
+  coverImage?: string;
   estimatedMinutes: number;
+  startSceneId: string;
+  status: ChapterStatus;
 }
 
 export interface Chapter {

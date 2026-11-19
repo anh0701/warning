@@ -21,7 +21,7 @@ export const router = createBrowserRouter([
     ],
   },
   {
-    path: "/game/:chapterId",
+    path: "/game/:chapterId/:scenarioId",
     element: <GamePage />,
   },
 ]);

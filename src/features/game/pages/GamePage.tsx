@@ -1,8 +1,9 @@
 import { useCallback } from "react";
-import { Link, useParams, useSearchParams } from "react-router-dom";
-import { ArrowLeft, RotateCcw, Trophy } from "lucide-react";
+import { Link, useParams } from "react-router-dom";
+import { ArrowLeft, Radio, Trophy, RotateCcw } from "lucide-react";
 
 import { fireScenarios } from "../../../data/scenarios/fireScenarios";
+import { getChapterById } from "../../chapters/services/chapterService";
 
 import GameHUD from "../components/GameHUD";
 import SceneView from "../components/SceneView";
@@ -14,13 +15,24 @@ import { useGame } from "../hooks/useGame";
 import { useGameTimer } from "../hooks/useGameTimer";
 
 export default function GamePage() {
-  const { chapterId } = useParams();
-  const [searchParams] = useSearchParams();
+  const { chapterId, scenarioId } = useParams<{
+    chapterId: string;
+    scenarioId: string;
+  }>();
 
-  // Hiện tại mới triển khai chapter Fire.
-  const scenarios = chapterId === "fire" ? fireScenarios : [];
+  const chapter = chapterId ? getChapterById(chapterId) : undefined;
 
-  const firstScenarioId = searchParams.get("scenario") || "fire-01";
+  const selectedScenario = chapter?.scenarios.find(
+    (scenario) => scenario.id === scenarioId,
+  );
+
+  const allScenes = chapterId === "fire" ? fireScenarios : [];
+
+  const scenarios = allScenes.filter(
+    (scene) => scene.scenarioId === scenarioId,
+  );
+
+  const firstScenarioId = selectedScenario?.startSceneId ?? "";
 
   const {
     gameState,
@@ -35,7 +47,6 @@ export default function GamePage() {
 
   const handleTimeUp = useCallback(() => {
     // Hết giờ chỉ dừng đồng hồ.
-    // Người chơi vẫn có thể chọn hành động.
   }, []);
 
   const { timeLeft, percentage } = useGameTimer({
@@ -44,100 +55,123 @@ export default function GamePage() {
     onTimeUp: handleTimeUp,
   });
 
-  // Kiểm tra chapter không tồn tại hoặc chưa được triển khai.
-  if (!currentScenario && scenarios.length === 0) {
+  if (!chapter || !selectedScenario) {
     return (
-      <div className="flex min-h-[70vh] flex-col items-center justify-center px-5 text-center">
-        <h1 className="mb-3 text-2xl font-bold text-[#f2f3f4]">
-          Chapter Not Available
-        </h1>
-
-        <p className="mb-6 text-sm text-[#9aa8b5]">
-          This chapter is not available yet.
-        </p>
-
-        <Link
-          to="/"
-          className="rounded-lg bg-[#e8a34a] px-5 py-3 text-sm font-bold text-[#101820]"
-        >
-          Back to Home
-        </Link>
-      </div>
+      <main className="flex min-h-screen items-center justify-center bg-[#0b1118] px-5 text-center text-white">
+        <div>
+          <p className="text-xs font-bold tracking-[0.25em] text-[#e8a34a]">
+            WARNING / 404
+          </p>
+          <h1 className="mt-4 text-3xl font-black">Scenario Not Found</h1>
+          <p className="mt-3 text-sm text-[#9aa8b5]">
+            Tình huống bạn đang tìm kiếm không tồn tại.
+          </p>
+          <Link
+            to="/"
+            className="mt-7 inline-flex rounded-lg bg-[#e8a34a] px-6 py-3 text-sm font-bold text-[#101820]"
+          >
+            Back to Home
+          </Link>
+        </div>
+      </main>
     );
   }
 
-  // Kiểm tra scenario ID không hợp lệ.
+  if (scenarios.length === 0) {
+    return (
+      <main className="flex min-h-screen items-center justify-center bg-[#0b1118] px-5 text-center text-white">
+        <div>
+          <p className="text-xs font-bold tracking-[0.25em] text-[#e8a34a]">
+            WARNING / IN DEVELOPMENT
+          </p>
+          <h1 className="mt-4 text-3xl font-black">Scenario Coming Soon</h1>
+          <p className="mt-3 text-sm text-[#9aa8b5]">
+            Nội dung tình huống này đang được phát triển.
+          </p>
+          <Link
+            to={`/chapters/${chapterId}`}
+            className="mt-7 inline-flex items-center gap-2 text-sm text-[#e8a34a]"
+          >
+            <ArrowLeft size={16} />
+            Back to Scenarios
+          </Link>
+        </div>
+      </main>
+    );
+  }
+
   if (!currentScenario) {
     return (
-      <div className="flex min-h-[70vh] flex-col items-center justify-center px-5 text-center">
-        <h1 className="mb-3 text-2xl font-bold text-[#f2f3f4]">
-          Scenario Not Found
-        </h1>
-
-        <Link
-          to="/chapters/fire"
-          className="text-sm text-[#e8a34a] hover:underline"
-        >
-          Back to Chapter
-        </Link>
-      </div>
+      <main className="flex min-h-screen items-center justify-center bg-[#0b1118] px-5 text-center text-white">
+        <div>
+          <h1 className="text-3xl font-black">Scene Not Found</h1>
+          <p className="mt-3 text-sm text-[#9aa8b5]">
+            Không tìm thấy diễn biến bắt đầu của tình huống này.
+          </p>
+          <Link
+            to={`/chapters/${chapterId}`}
+            className="mt-7 inline-flex items-center gap-2 text-sm text-[#e8a34a]"
+          >
+            <ArrowLeft size={16} />
+            Back to Scenarios
+          </Link>
+        </div>
+      </main>
     );
   }
 
-  // Màn hình kết thúc chapter.
   if (gameState.status === "ended") {
     return (
-      <main className="mx-auto flex min-h-[75vh] max-w-3xl items-center justify-center px-5 py-12">
-        <div className="w-full rounded-2xl border border-white/10 bg-[#1b2835] p-7 text-center sm:p-10">
-          <div className="mx-auto mb-5 flex h-16 w-16 items-center justify-center rounded-full bg-[#e8a34a]/10">
-            <Trophy size={32} className="text-[#e8a34a]" />
-          </div>
-
-          <p className="mb-2 text-xs font-bold uppercase tracking-[0.25em] text-[#e8a34a]">
-            Chapter Completed
-          </p>
-
-          <h1 className="mb-3 text-3xl font-bold text-[#f2f3f4]">
-            The Fire Challenge
-          </h1>
-
-          <p className="mx-auto mb-8 max-w-lg text-sm leading-7 text-[#9aa8b5]">
-            You have completed this survival scenario. Review your performance
-            and try again to explore different decisions.
-          </p>
-
-          <div className="mb-8 grid grid-cols-2 gap-4">
-            <div className="rounded-xl bg-[#101820] p-5">
-              <p className="mb-2 text-xs text-[#9aa8b5]">Final Safety</p>
-              <p className="text-3xl font-bold text-[#58b889]">
-                {gameState.safety}%
-              </p>
+      <main className="flex min-h-screen items-center justify-center bg-[#0b1118] px-5 py-8 text-white">
+        <div className="w-full max-w-xl overflow-hidden rounded-2xl border border-white/10 bg-[#14202b] shadow-2xl">
+          <div className="h-1 bg-[#e8a34a]" />
+          <div className="p-7 text-center sm:p-10">
+            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-[#e8a34a]/10">
+              <Trophy size={32} className="text-[#e8a34a]" />
             </div>
 
-            <div className="rounded-xl bg-[#101820] p-5">
-              <p className="mb-2 text-xs text-[#9aa8b5]">Final Calmness</p>
-              <p className="text-3xl font-bold text-[#e8a34a]">
-                {gameState.calmness}%
-              </p>
+            <p className="mt-6 text-xs font-black tracking-[0.25em] text-[#e8a34a]">
+              MISSION COMPLETE
+            </p>
+            <h1 className="mt-3 text-3xl font-black">
+              {selectedScenario.title}
+            </h1>
+            <p className="mt-3 text-sm leading-7 text-[#9aa8b5]">
+              You have completed this survival scenario. Review your performance
+              and try again.
+            </p>
+
+            <div className="mt-8 grid grid-cols-2 gap-3">
+              <div className="rounded-xl bg-[#0b1118] p-5">
+                <p className="text-xs text-[#8996a3]">FINAL SAFETY</p>
+                <p className="mt-2 text-3xl font-black text-[#58b889]">
+                  {gameState.safety}%
+                </p>
+              </div>
+              <div className="rounded-xl bg-[#0b1118] p-5">
+                <p className="text-xs text-[#8996a3]">FINAL CALMNESS</p>
+                <p className="mt-2 text-3xl font-black text-[#e8a34a]">
+                  {gameState.calmness}%
+                </p>
+              </div>
             </div>
-          </div>
 
-          <div className="flex flex-col justify-center gap-3 sm:flex-row">
-            <button
-              type="button"
-              onClick={restart}
-              className="flex items-center justify-center gap-2 rounded-lg bg-[#e8a34a] px-6 py-3 text-sm font-bold text-[#101820] transition hover:bg-[#d38f35]"
-            >
-              <RotateCcw size={17} />
-              Play Again
-            </button>
-
-            <Link
-              to="/chapters/fire"
-              className="rounded-lg border border-white/15 px-6 py-3 text-sm font-semibold text-[#f2f3f4] transition hover:bg-white/5"
-            >
-              Back to Chapter
-            </Link>
+            <div className="mt-7 flex flex-col gap-3 sm:flex-row">
+              <button
+                type="button"
+                onClick={restart}
+                className="inline-flex flex-1 items-center justify-center gap-2 rounded-lg bg-[#e8a34a] px-5 py-3 text-sm font-bold text-[#101820] transition hover:bg-amber-300"
+              >
+                <RotateCcw size={16} />
+                Play Again
+              </button>
+              <Link
+                to={`/chapters/${chapterId}`}
+                className="flex-1 rounded-lg border border-white/15 px-5 py-3 text-sm font-semibold transition hover:bg-white/5"
+              >
+                Back to Scenarios
+              </Link>
+            </div>
           </div>
         </div>
       </main>
@@ -145,88 +179,120 @@ export default function GamePage() {
   }
 
   return (
-    <main className="mx-auto max-w-5xl px-4 py-8 sm:px-6 lg:py-12">
-      {/* Back navigation */}
-      <div className="mb-6 flex items-center justify-between">
+    <main className="min-h-screen bg-[#080e14] px-3 py-4 text-[#f2f3f4] sm:px-5 sm:py-5 lg:flex lg:flex-col lg:items-center lg:justify-center">
+      {/* Game top bar */}
+      <header className="mx-auto mb-4 flex w-full max-w-[1400px] items-center justify-between">
         <Link
-          to="/chapters/fire"
-          className="flex items-center gap-2 text-sm text-[#9aa8b5] transition hover:text-[#e8a34a]"
+          to={`/chapters/${chapterId}`}
+          className="inline-flex items-center gap-2 text-xs font-semibold text-[#8996a3] transition hover:text-[#e8a34a]"
         >
-          <ArrowLeft size={17} />
-          Exit Scenario
+          <ArrowLeft size={16} />
+          EXIT GAME
         </Link>
 
-        <span className="text-xs font-semibold tracking-widest text-[#e8a34a]">
-          WARNING / FIRE
-        </span>
-      </div>
-
-      {/* Game heading */}
-      <div className="mb-6">
-        <p className="mb-2 text-xs font-semibold uppercase tracking-[0.25em] text-[#e8a34a]">
-          Everyday Life Survival
-        </p>
-
-        <h1 className="text-2xl font-bold text-[#f2f3f4] sm:text-3xl">
-          Fire Emergency
-        </h1>
-      </div>
-
-      {/* HUD */}
-      <div className="mb-6">
-        <GameHUD
-          timeLeft={timeLeft}
-          timePercentage={percentage}
-          safety={gameState.safety}
-          calmness={gameState.calmness}
-        />
-      </div>
-
-      {/* Scene */}
-      <div className="mb-6">
-        <SceneView
-          title={currentScenario.title}
-          location={currentScenario.location}
-          image={currentScenario.image}
-        />
-      </div>
-
-      {/* Dialogue */}
-      <div className="mb-6">
-        <DialogueBox
-          description={currentScenario.description}
-          dialogue={currentScenario.dialogue}
-        />
-      </div>
-
-      {/* Time warning */}
-      {timeLeft === 0 && gameState.status === "playing" && (
-        <div className="mb-6 rounded-lg border border-[#e05252]/30 bg-[#e05252]/10 p-4 text-sm text-[#f2f3f4]">
-          Time is up. Take a moment to choose your next action carefully.
+        <div className="flex items-center gap-2">
+          <span className="h-2 w-2 animate-pulse rounded-full bg-[#e8a34a]" />
+          <span className="text-[10px] font-black tracking-[0.3em] text-[#c1cbd3]">
+            WARNING
+          </span>
         </div>
-      )}
 
-      {/* Choices or feedback */}
-      {gameState.status === "playing" ? (
-        <ChoiceList
-          choices={currentScenario.choices}
-          selectedChoice={gameState.selectedChoice}
-          onChoose={chooseOption}
-          disabled={false}
-        />
-      ) : gameState.selectedChoice ? (
-        <FeedbackPanel
-          feedback={gameState.selectedChoice.feedback}
-          onContinue={continueScenario}
-        />
-      ) : null}
+        <span className="text-[10px] font-bold tracking-wider text-[#65727e]">
+          SURVIVAL MODE
+        </span>
+      </header>
 
-      {/* Scenario progress */}
-      <div className="mt-8 border-t border-white/10 pt-5">
-        <p className="text-xs text-[#71808e]">
-          CURRENT SCENARIO: {currentScenario.id.toUpperCase()}
-        </p>
-      </div>
+      {/* Main game frame */}
+      <section className="mx-auto grid w-full max-w-[1400px] overflow-hidden rounded-2xl border border-white/10 bg-[#111b25] shadow-[0_25px_100px_rgba(0,0,0,0.5)] lg:h-[min(790px,calc(100svh-100px))] lg:min-h-[610px] lg:grid-cols-[1.08fr_0.92fr]">
+        {/* Left: immersive scene */}
+        <div className="relative min-h-[330px] border-b border-white/10 lg:min-h-0 lg:border-b-0 lg:border-r">
+          <SceneView
+            title={currentScenario.title}
+            location={currentScenario.location}
+            image={currentScenario.image}
+          />
+        </div>
+
+        {/* Right: game control panel */}
+        <div className="flex min-h-[580px] min-w-0 flex-col lg:min-h-0">
+          {/* HUD stays at the top */}
+          <div className="shrink-0 border-b border-white/10 bg-[#16232e] p-4 sm:p-5">
+            <div className="mb-4 flex items-center justify-between">
+              <div>
+                <p className="text-[10px] font-black tracking-[0.2em] text-[#e8a34a]">
+                  PLAYER STATUS
+                </p>
+                <p className="mt-1 text-xs text-[#8996a3]">
+                  Monitor your survival condition
+                </p>
+              </div>
+              <span className="rounded border border-[#58b889]/25 bg-[#58b889]/10 px-2 py-1 text-[9px] font-bold tracking-wider text-[#58b889]">
+                ACTIVE
+              </span>
+            </div>
+
+            <GameHUD
+              timeLeft={timeLeft}
+              timePercentage={percentage}
+              safety={gameState.safety}
+              calmness={gameState.calmness}
+            />
+          </div>
+
+          {/* Scrollable game content */}
+          <div className="min-h-0 flex-1 overflow-y-auto p-4 sm:p-6">
+            <div className="mb-5 flex items-center justify-between">
+              <span className="text-[10px] font-black tracking-[0.2em] text-[#8996a3]">
+                CURRENT EVENT
+              </span>
+              <span className="rounded bg-white/5 px-2 py-1 font-mono text-[10px] text-[#8996a3]">
+                {currentScenario.id.toUpperCase()}
+              </span>
+            </div>
+
+            <DialogueBox
+              description={currentScenario.description}
+              dialogue={currentScenario.dialogue}
+            />
+
+            {timeLeft === 0 && gameState.status === "playing" && (
+              <div className="mt-4 rounded-lg border border-[#e05252]/30 bg-[#e05252]/10 p-3 text-xs leading-6 text-[#f2b4b4]">
+                Time is up. Choose your next action carefully.
+              </div>
+            )}
+
+            <div className="my-6 border-t border-white/10" />
+
+            {gameState.status === "playing" ? (
+              <ChoiceList
+                choices={currentScenario.choices}
+                selectedChoice={gameState.selectedChoice}
+                onChoose={chooseOption}
+                disabled={false}
+              />
+            ) : gameState.selectedChoice ? (
+              <FeedbackPanel
+                feedback={gameState.selectedChoice.feedback}
+                onContinue={continueScenario}
+              />
+            ) : null}
+          </div>
+
+          {/* Bottom bar */}
+          <div className="flex shrink-0 items-center justify-between border-t border-white/10 bg-[#0d161f] px-4 py-3 sm:px-5">
+            <span className="text-[9px] font-bold tracking-[0.18em] text-[#65727e]">
+              WARNING SYSTEM
+            </span>
+            <span className="text-[9px] font-semibold tracking-wider text-[#65727e]">
+              THINK · ACT · SURVIVE
+            </span>
+          </div>
+        </div>
+      </section>
+
+      <p className="mx-auto mt-3 hidden w-full max-w-[1400px] text-right text-[9px] tracking-wider text-[#45515c] lg:block">
+        WARNING — EVERY SECOND MATTERS
+      </p>
     </main>
   );
 }
